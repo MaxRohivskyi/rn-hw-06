@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { useDispatch } from "react-redux";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import {
@@ -16,30 +16,32 @@ import {
   Pressable,
   Text,
 } from "react-native";
+import { register } from "../../redux/auth/auth.operations";
 
+const photoURL = "https://cdn-icons-png.flaticon.com/512/4537/4537021.png";
 const image = "../../img/photo-bg.jpg";
 
 const Register = ({ navigation }) => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const [displayName, setDisplayName] = useState("Rick_69");
+  const [password, setPassword] = useState("rick12345678");
+  const [email, setEmail] = useState("testrick@gmail.com");
 
   const [isShowPass, setIsShowPass] = useState(true);
   const [isKeyboardShow, setIsKeyboardShow] = useState(false);
 
-  const loginHandler = (text) => setLogin(text);
-  const passwordHandler = (text) => setPassword(text);
-  const emailHandler = (text) => setEmail(text);
+  const displayNameHandler = (text) => setDisplayName(text.trim());
+  const passwordHandler = (text) => setPassword(text.trim());
+  const emailHandler = (text) => setEmail(text.trim());
   const showPassToggle = () => {
     setIsShowPass(!isShowPass);
   };
 
-  const onRegister = () => {
-    console.log(`User login: ${login}, Password: ${password}, Email: ${email}`);
+  const registerSubmit = () => {
+    dispatch(register({ displayName, password, email, photoURL }));
     setEmail("");
     setPassword("");
-    setLogin("");
-    navigation.navigate("Home");
+    setDisplayName("");
   };
 
   const keyBoardHide = () => {
@@ -59,13 +61,18 @@ const Register = ({ navigation }) => {
               },
             ]}
           >
-            {/* <Pressable
-              style={{
-                transform: [{ translateY: 75 }, { translateX: 10 }],
+            <Image
+              source={{
+                uri: photoURL,
               }}
-            >
-              <Ionicons name="add-circle-outline" size={13} color="#FF6C00" />
-            </Pressable> */}
+              style={{
+                width: 120,
+                height: 120,
+                overflow: "hidden",
+                borderRadius: 16,
+              }}
+            />
+
             <Pressable
               style={styles.addButton}
               onPress={() => {
@@ -92,8 +99,8 @@ const Register = ({ navigation }) => {
               keyboardVerticalOffset={300}
             >
               <TextInput
-                value={login}
-                onChangeText={loginHandler}
+                value={displayName}
+                onChangeText={displayNameHandler}
                 placeholder="Логін"
                 style={styles.input}
                 onFocus={() => setIsKeyboardShow(true)}
@@ -130,7 +137,7 @@ const Register = ({ navigation }) => {
             </KeyboardAvoidingView>
           </View>
           <TouchableOpacity
-            onPress={onRegister}
+            onPress={registerSubmit}
             accessibilityLabel="Зареєструватися"
             style={styles.buttonRegister}
           >

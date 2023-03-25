@@ -1,9 +1,13 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { useRoute } from "./router";
+import { Provider } from "react-redux";
+import { store } from "./src/redux/store";
+import Main from "./src/components/Main";
 
 const App = () => {
-  const routing = useRoute(false);
-  return <NavigationContainer>{routing}</NavigationContainer>;
+  return (
+    <Provider store={store}>
+      <Main />
+    </Provider>
+  );
 };
 
 export default App;
