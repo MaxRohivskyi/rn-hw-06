@@ -33,6 +33,7 @@ This project is a React Native app built using Expo. The app has been developed 
 - "react-native-screens": "~3.18.0",
 - "react-redux": "^8.0.5",
 - "@react-native-async-storage/async-storage": "~1.17.3"
+- "expo-updates": "~0.15.6"
 
 ## Scripts:
 
